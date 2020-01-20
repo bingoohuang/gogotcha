@@ -52,6 +52,32 @@ $ setenforce Permissive
 1. `curl -XGET --unix-socket /var/run/docker.sock http://unix/containers/json | cut -b 1-400`
 1. `ssh -i ./rke_id_rsa rke@192.168.126.16 "curl -XGET --unix-socket /var/run/docker.sock http://unix/containers/json | cut -b 1-400"`
 
+## Checking log
+
+```bash
+# journalctl -f
+Jan 20 17:36:34 fs01 setroubleshoot[6109]: SELinux is preventing /usr/sbin/sshd from connectto access on the unix_stream_socket /run/docker.sock. For complete SELinux messages run: sealert -l 9ca80d93-76bf-47fb-9116-0df43240da8b
+Jan 20 17:36:34 fs01 python[6109]: SELinux is preventing /usr/sbin/sshd from connectto access on the unix_stream_socket /run/docker.sock.
+
+                                                   *****  Plugin catchall_boolean (89.3 confidence) suggests   ******************
+
+                                                   If you want to allow daemons to enable cluster mode
+                                                   Then you must tell SELinux about this by enabling the 'daemons_enable_cluster_mode' boolean.
+
+                                                   Do
+                                                   setsebool -P daemons_enable_cluster_mode 1
+
+                                                   *****  Plugin catchall (11.6 confidence) suggests   **************************
+
+                                                   If you believe that sshd should be allowed connectto access on the docker.sock unix_stream_socket by default.
+                                                   Then you should report this as a bug.
+                                                   You can generate a local policy module to allow this access.
+                                                   Do
+                                                   allow this access for now by executing:
+                                                   # ausearch -c 'sshd' --raw | audit2allow -M my-sshd
+                                                   # semodule -i my-sshd.pp
+```
+
 ## Build
 
 ### Build local
