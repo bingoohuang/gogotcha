@@ -1,6 +1,8 @@
+# unix domain http server/client
+
 测试unix domain socket方式的http server, http client，以及基于ssh tunnel的unix socket连接方式。
 
-检查selinux状态
+## 检查selinux状态
 
 ```bash
 $ bssh -H root12616,root12618 sestatus
@@ -32,11 +34,10 @@ root12618 ::  Permissive
 root12616 ::  Permissive
 ```
 
-Enabling/Disabling SELinux
+## Enabling/Disabling SELinux
 
-    Open the file  /etc/selinux/config  and change the option SELINUX to disabled or vice versa.
-    Restart the machine to take effect.
-
+1. Open the file  /etc/selinux/config  and change the option SELINUX to disabled or vice versa.
+1. Restart the machine to take effect.
 
 To change the mode of SELinux which is running
 
@@ -51,18 +52,20 @@ $ setenforce Permissive
 1. `curl -XGET --unix-socket /var/run/docker.sock http://unix/containers/json | cut -b 1-400`
 1. `ssh -i ./rke_id_rsa rke@192.168.126.16 "curl -XGET --unix-socket /var/run/docker.sock http://unix/containers/json | cut -b 1-400"`
 
-Build local
-    
-    go fmt ./...&&goimports -w .&&golint ./...&&golangci-lint run --enable-all&& go install  -ldflags="-s -w" ./..
+## Build
 
-Build for linux
+### Build local
 
-    env GOOS=linux GOARCH=amd64 go install -ldflags="-s -w" ./...
+`go fmt ./...&&goimports -w .&&golint ./...&&golangci-lint run --enable-all&& go install  -ldflags="-s -w" ./..`
 
-Unix HTTP server
+### Build for linux
+
+`env GOOS=linux GOARCH=amd64 go install -ldflags="-s -w" ./...`
+
+## Unix HTTP server
 
 ```bash
-$ unix-domain-socket ./a.sock                 
+$ unix-domain-socket ./a.sock
 Unix HTTP server
 listened on unix ./a.sock
 GET /hello HTTP/1.1
@@ -82,7 +85,7 @@ baby
 ^CGot signal: interrupt
 ```
 
-Unix HTTP client
+## Unix HTTP client
 
 ```bash
 $ unix-domain-socket ./a.sock /hello
@@ -103,5 +106,5 @@ Date: Mon, 20 Jan 2020 08:59:26 GMT
 
 Hello
 
-$ 
+$
 ```
