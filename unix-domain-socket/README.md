@@ -55,6 +55,8 @@ $ setenforce Permissive
 ## Checking log
 
 ```bash
+# ls -lh /var/run
+lrwxrwxrwx. 1 root root 6 Dec  7  2018 /var/run -> ../run
 # journalctl -f
 Jan 20 17:36:34 fs01 setroubleshoot[6109]: SELinux is preventing /usr/sbin/sshd from connectto access on the unix_stream_socket /run/docker.sock. For complete SELinux messages run: sealert -l 9ca80d93-76bf-47fb-9116-0df43240da8b
 Jan 20 17:36:34 fs01 python[6109]: SELinux is preventing /usr/sbin/sshd from connectto access on the unix_stream_socket /run/docker.sock.
