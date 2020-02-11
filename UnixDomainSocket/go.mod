@@ -1,4 +1,4 @@
-module unix-domain-socket
+module UnixDomainSocket
 
 go 1.13
 
