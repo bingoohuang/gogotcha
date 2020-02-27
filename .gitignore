@@ -16,3 +16,5 @@
 .idea
 rke_id_rsa
 .DS_Store
+
+/nexus/nexus-data/
