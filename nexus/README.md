@@ -12,21 +12,27 @@ docker-compose up
 ```
 
 1. 访问 http://localhost:3001/ 用户名:admin 密码: 见`nexus-data/admin.password`文件。
-1. 新建type为proxy的go repository（添加4个国内加速镜像）
+1. 新建type为proxy的go repository（添加5个加速镜像）
 
-    https://mirrors.aliyun.com/goproxy/
-    https://goproxy.io
-    https://athens.azurefd.net
+    - 阿里云 https://mirrors.aliyun.com/goproxy/
+    - 七牛 Goproxy 中国  https://goproxy.cn
+    - 全球 CDN 加速  https://goproxy.io
+    - jfrog   https://gocenter.io
+    - Athens https://athens.azurefd.net
 
-1. 新建type为group的go repository
+1. 新建type为group的go repository，名字为goproxy。
 
-    group版的golang repository可以从proxy go repository下载依赖并缓存到本地，将左侧Avaliable中可用的repository加入到右侧的Menbers中，这样就可以从 http://localhost:3001/repository/go-proxy/ 中直接下载依赖，nexus会自动帮我们从proxy go repository中下载依赖。
+    group版的golang repository可以从proxy go repository下载依赖并缓存到本地，将左侧Avaliable中可用的repository加入到右侧的Menbers中，
+    这样就可以从 `http://localhost:3001/repository/goproxy/` 中直接下载依赖，nexus会自动帮我们从proxy go repository中下载依赖。
 
 1. 设置golang代理
 
-    完成上诉步骤之后，还需要设置环境变量启用golang的代理功能，不同操作系统的设置方式可自行修改，将变量GO111MODULE设置为on，GOPROXY设置为私服的地 http://localhost:3001/repository/go-proxy/ ，若是遇到401 Unauthorized的问题，应该是需要进行nexus3的用户验证，可以直接在代理地址中加入用户名密码，例如 http://username:password@localhost:3001/repository/go-proxy/ 。
+    完成上诉步骤之后，还需要设置环境变量启用golang的代理功能，不同操作系统的设置方式可自行修改，将变量GO111MODULE设置为on，
+    GOPROXY设置为私服的地 `http://localhost:3001/repository/goproxy/` ，
+    若是遇到401 Unauthorized的问题，应该是需要进行nexus3的用户验证，可以直接在代理地址中加入用户名密码，
+    例如 `http://username:password@localhost:3001/repository/goproxy/` 。
 
-    若是不想自行搭建私服，也可使用一些现成的镜像站 https://goproxy.io 、https://athens.azurefd.net 、或者国内阿里云的 https://mirrors.aliyun.com/goproxy/ ，只要将环境变量GOPROXY修改成相应地址即可
+    若是不想自行搭建私服，也可使用一些现成的镜像站。
 
 1. 更多帮助请见[sonatype go-repositories](https://help.sonatype.com/repomanager3/formats/go-repositories)
 
@@ -41,15 +47,6 @@ docker-compose up
 ## GOPROXY
 
 众所周知，国内网络访问国外资源经常会出现不稳定的情况。 Go 生态系统中有着许多中国 Gopher 们无法获取的模块，比如最著名的 golang.org/x/...。并且在中国大陆从 GitHub 获取模块的速度也有点慢。
-
-因此设置 CDN 加速代理就很有必要了，以下是几个速度不错的提供者：
-
-[Go 国内加速镜像](https://learnku.com/go/wikis/38122)
-
-- 官方： 全球 CDN 加速 https://goproxy.io
-- 七牛： Goproxy 中国 https://goproxy.cn
-- 其他： jfrog 维护   https://gocenter.io
-- 阿里： https://mirrors.aliyun.com/goproxy/
 
 ### 设置代理
 
@@ -110,3 +107,20 @@ go env -w GOPROXY=https://goproxy.io,direct
 # 设置不走 proxy 的私有仓库，多个用逗号相隔
 go env -w GOPRIVATE=*.corp.example.com
 ```
+
+## docker 启动 nexus 出现的问题
+
+1. `docker run -d -p 8082:8082 -v /home/nexus-data/:/nexus-data/ --name nexus3 sonatype/nexus3:3.21.1`
+
+    - 启动nexus时，没有权限操作宿主机文件夹 `chmod 777 /home/nexus-data`
+
+## docker 导出导入镜像
+
+1. 导出 `docker save sonatype/nexus3 -o sonatype-nexus3-3.21.1.tar`
+1. 导出 `docker save gomods/athens -o gomods-athens-v0.7.2.tar`
+1. 导入 `docker load -i sonatype-nexus3-3.21.1.tar`
+1. 导入 `docker load -i gomods-athens-v0.7.2.tar`
+1. 打标 `docker tag {nexus3 imageID} sonatype/nexus3:3.21.1`
+1. 打标 `docker tag {athens imageID} gomods/athens:v0.7.2`
+1. 后台启动 `docker-compose up -d`
+1. 删除 `docker-compose rm -fsv`
