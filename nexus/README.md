@@ -94,7 +94,7 @@ $env:GOPROXY="https://goproxy.io"
 $env:GOPROXY="https://goproxy.cn"
 
 测试一下
-$ time go get golang.org/x/tour
+$ time go get -v golang.org/x/tour
 
 ```
 
