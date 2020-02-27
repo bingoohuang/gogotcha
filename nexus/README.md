@@ -20,13 +20,13 @@ docker-compose up
 
 1. 新建type为group的go repository
 
-    group版的golang repository可以从proxy go repository下载依赖并缓存到本地，将左侧Avaliable中可用的repository加入到右侧的Menbers中，这样就可以从http://localhost:3001/repository/go-proxy/中直接下载依赖，nexus会自动帮我们从proxy go repository中下载依赖。
+    group版的golang repository可以从proxy go repository下载依赖并缓存到本地，将左侧Avaliable中可用的repository加入到右侧的Menbers中，这样就可以从 http://localhost:3001/repository/go-proxy/ 中直接下载依赖，nexus会自动帮我们从proxy go repository中下载依赖。
 
 1. 设置golang代理
 
-    完成上诉步骤之后，还需要设置环境变量启用golang的代理功能，不同操作系统的设置方式可自行修改，将变量GO111MODULE设置为on，GOPROXY设置为私服的地http://localhost:3001/repository/go-proxy/，若是遇到401 Unauthorized的问题，应该是需要进行nexus3的用户验证，可以直接在代理地址中加入用户名密码，例如http://username:password@localhost:3001/repository/go-proxy/。
+    完成上诉步骤之后，还需要设置环境变量启用golang的代理功能，不同操作系统的设置方式可自行修改，将变量GO111MODULE设置为on，GOPROXY设置为私服的地 http://localhost:3001/repository/go-proxy/ ，若是遇到401 Unauthorized的问题，应该是需要进行nexus3的用户验证，可以直接在代理地址中加入用户名密码，例如 http://username:password@localhost:3001/repository/go-proxy/ 。
 
-    若是不想自行搭建私服，也可使用一些现成的镜像站https://goproxy.io、https://athens.azurefd.net、或者国内阿里云的https://mirrors.aliyun.com/goproxy/，只要将环境变量GOPROXY修改成相应地址即可
+    若是不想自行搭建私服，也可使用一些现成的镜像站 https://goproxy.io 、https://athens.azurefd.net 、或者国内阿里云的 https://mirrors.aliyun.com/goproxy/ ，只要将环境变量GOPROXY修改成相应地址即可
 
 1. 更多帮助请见[sonatype go-repositories](https://help.sonatype.com/repomanager3/formats/go-repositories)
 
