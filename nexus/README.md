@@ -30,6 +30,8 @@ docker-compose up
 
 1. 更多帮助请见[sonatype go-repositories](https://help.sonatype.com/repomanager3/formats/go-repositories)
 
+![image](https://user-images.githubusercontent.com/1940588/75412237-d09c7800-595c-11ea-8717-65a4b0beef10.png)
+
 ## FAQ
 
 1. 默认用户名密码 [sonatype/nexus3](https://hub.docker.com/r/sonatype/nexus3/)
