@@ -36,7 +36,7 @@ docker-compose up
 
 1. 更多帮助请见[sonatype go-repositories](https://help.sonatype.com/repomanager3/formats/go-repositories)
 
-![image](https://user-images.githubusercontent.com/1940588/75412237-d09c7800-595c-11ea-8717-65a4b0beef10.png)
+![image](https://user-images.githubusercontent.com/1940588/75416638-c6cd4180-5969-11ea-9df6-cc4b5c3b9f08.png)
 
 ## FAQ
 
