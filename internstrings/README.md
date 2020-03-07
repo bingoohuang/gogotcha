@@ -1,0 +1,1 @@
+blog post [introducing string interning](https://commaok.xyz/post/intern-strings/)
