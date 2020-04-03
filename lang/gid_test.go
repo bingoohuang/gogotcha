@@ -1,4 +1,4 @@
-package goroutine
+package lang
 
 import (
 	"testing"
@@ -15,9 +15,9 @@ func TestCurGoroutineID(t *testing.T) {
 		go func() {
 			goroutineID := CurGoroutineID()
 
-			t.Logf("goroutineID:%d\n", goroutineID)
+			t.Logf("goroutineID:%s\n", goroutineID)
 
-			it.True(goroutineID > 0)
+			it.True(goroutineID.Uint64() > 0)
 
 			ch <- true
 		}()
