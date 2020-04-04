@@ -3,8 +3,9 @@ package custom
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/bingoohuang/gogotcha/lang"
 	"testing"
+
+	"github.com/bingoohuang/gogotcha/lang"
 )
 
 func TestCustom(t *testing.T) {
