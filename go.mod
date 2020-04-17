@@ -4,6 +4,8 @@ go 1.14
 
 require (
 	github.com/Masterminds/goutils v1.1.0
+	github.com/PuerkitoBio/goquery v1.5.1
+	github.com/bingoohuang/gou v0.0.0-20200413074013-146ecb901d5e
 	github.com/bingoohuang/strcase v0.0.0-20200312105414-ac2c85cfc85d
 	github.com/elastic/go-ucfg v0.8.3
 	github.com/go-echarts/go-echarts v0.0.0-20190915064101-cbb3b43ade5d
@@ -15,7 +17,6 @@ require (
 	github.com/mattn/go-runewidth v0.0.8
 	github.com/nsf/termbox-go v0.0.0-20200204031403-4d2b513ad8be
 	github.com/sirupsen/logrus v1.4.2
-	github.com/smartystreets/goconvey v1.6.4 // indirect
 	github.com/speps/go-hashids v2.0.0+incompatible
 	github.com/stretchr/testify v1.4.0
 	go.uber.org/dig v1.8.0
