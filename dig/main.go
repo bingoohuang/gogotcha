@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
-	"github.com/jessevdk/go-flags"
+	flags "github.com/jessevdk/go-flags"
 	"go.uber.org/dig"
-	"gopkg.in/ini.v1"
+	ini "gopkg.in/ini.v1"
 )
 
 type Option struct {

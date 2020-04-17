@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
-	"github.com/goccy/go-yaml"
+	yaml "github.com/goccy/go-yaml"
 
-	"github.com/elastic/go-ucfg"
+	ucfg "github.com/elastic/go-ucfg"
 	yu "github.com/elastic/go-ucfg/yaml"
 )
 

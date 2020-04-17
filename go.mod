@@ -16,6 +16,7 @@ require (
 	github.com/nsf/termbox-go v0.0.0-20200204031403-4d2b513ad8be
 	github.com/sirupsen/logrus v1.4.2
 	github.com/smartystreets/goconvey v1.6.4 // indirect
+	github.com/speps/go-hashids v2.0.0+incompatible
 	github.com/stretchr/testify v1.4.0
 	go.uber.org/dig v1.8.0
 	golang.org/x/crypto v0.0.0-20190621222207-cc06ce4a13d4
