@@ -4,6 +4,7 @@ import (
 	"testing"
 )
 
+// nolint gochecknoinits
 var awesomeJSON = []byte(`{
   "id": "123456789",
   "message": "Total awesomeness",
@@ -30,6 +31,7 @@ func TestAwesomeFromJSON(t *testing.T) {
 
 	if awesome == nil {
 		t.Error("Unmarshalling json into awesome failed")
+		return
 	}
 
 	if awesome.ID != "123456789" {
@@ -58,13 +60,13 @@ func BenchmarkAwesomeFromJSON(b *testing.B) {
 func BenchmarkAwesomeToJSON(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		awesome := NewAwesome("123456789", "Total awesomeness", 9.99, true)
-		awesome.ToJSON(false)
+		_, _ = awesome.ToJSON(false)
 	}
 }
 
 func BenchmarkAwesomeToJSONPretty(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		awesome := NewAwesome("123456789", "Total awesomeness", 9.99, true)
-		awesome.ToJSON(true)
+		_, _ = awesome.ToJSON(true)
 	}
 }

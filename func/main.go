@@ -18,9 +18,7 @@ func (h HandlerFunc) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	var h Handler
-
-	h = HandlerFunc(nil)
+	var h Handler = HandlerFunc(nil)
 
 	fmt.Println(h)
 }

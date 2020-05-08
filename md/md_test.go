@@ -21,5 +21,5 @@ func TestMdHtml(t *testing.T) {
 	`)
 	output := markdown.ToHTML(md, nil, nil)
 	fmt.Println(string(output))
-	ioutil.WriteFile("md.html", output, 0777)
+	_ = ioutil.WriteFile("md.html", output, 0777)
 }

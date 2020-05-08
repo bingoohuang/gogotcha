@@ -6,6 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// nolint gochecknoglobals
 var awesomeJSON = []byte(`{
   "id": "123456789",
   "message": "Total awesomeness",

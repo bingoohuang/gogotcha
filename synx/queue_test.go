@@ -10,8 +10,10 @@ func TestQueue(t *testing.T) {
 	q := NewQueue()
 
 	var wg sync.WaitGroup
+
 	for n := 10; n > 0; n-- {
 		wg.Add(1)
+
 		go func(n int) {
 			items := q.GetMany(n)
 			fmt.Printf("%02d: %02d\n", n, items)
@@ -30,8 +32,10 @@ func TestQueueCh(t *testing.T) {
 	q := NewQueueCh()
 
 	var wg sync.WaitGroup
+
 	for n := 10; n > 0; n-- {
 		wg.Add(1)
+
 		go func(n int) {
 			items := q.GetMany(n)
 			fmt.Printf("%02d: %02d\n", n, items)
@@ -50,8 +54,10 @@ func BenchmarkQueue(b *testing.B) {
 	q := NewQueue()
 
 	var wg sync.WaitGroup
+
 	for n := 10; n > 0; n-- {
 		wg.Add(1)
+
 		go func(n int) {
 			items := q.GetMany(n)
 			fmt.Printf("%02d: %02d\n", n, items)
@@ -70,8 +76,10 @@ func BenchmarkQueueCh(b *testing.B) {
 	q := NewQueueCh()
 
 	var wg sync.WaitGroup
+
 	for n := 10; n > 0; n-- {
 		wg.Add(1)
+
 		go func(n int) {
 			items := q.GetMany(n)
 			fmt.Printf("%02d: %02d\n", n, items)

@@ -32,8 +32,8 @@ func PrintInfo(cfg *ini.File) {
 func main() {
 	container := dig.New()
 
-	container.Provide(InitOption)
-	container.Provide(InitConf)
+	_ = container.Provide(InitOption)
+	_ = container.Provide(InitConf)
 
-	container.Invoke(PrintInfo)
+	_ = container.Invoke(PrintInfo)
 }

@@ -1,14 +1,16 @@
+// +build demo
+
 package guery
 
 import (
 	"fmt"
-	"github.com/PuerkitoBio/goquery"
-	"github.com/bingoohuang/gou/enc"
 	"log"
 	"net/http"
 	"reflect"
 	"strings"
-	"testing"
+
+	"github.com/PuerkitoBio/goquery"
+	"github.com/bingoohuang/gou/enc"
 )
 
 type PipeLine struct {
@@ -72,6 +74,7 @@ func NewStructCreator(slicePtr interface{}) *StructCreator {
 	}
 
 	columns := make([]itemStructField, 0)
+
 	for i := 0; i < s.ItemStructType.NumField(); i++ {
 		fi := s.ItemStructType.Field(i)
 		if fi.PkgPath != "" {
@@ -91,8 +94,7 @@ func NewStructCreator(slicePtr interface{}) *StructCreator {
 	return s
 }
 
-func TestGquery(t *testing.T) {
-	// Request the HTML page.
+func ExampleNewDocumentFromReader() {
 	res, err := http.Get("http://127.0.0.1:2901/pipeline_list.htm?channelId=1")
 	if err != nil {
 		log.Fatal(err)
@@ -127,24 +129,23 @@ func TestGquery(t *testing.T) {
 	})
 
 	fmt.Println(enc.JSONPretty(pipelines))
-	/*
-	   [
-	      	{
-	      		"Seq": "3",
-	      		"Name": "pipeb",
-	      		"State": "工作中",
-	      		"Delay": "1.213 s",
-	      		"LastSyncTime": "2020-04-14 08:27:35",
-	      		"LastPositionTime": "2020-04-17 07:22:04"
-	      	},
-	      	{
-	      		"Seq": "1",
-	      		"Name": "pipea",
-	      		"State": "工作中",
-	      		"Delay": "0.75 s",
-	      		"LastSyncTime": "2020-04-17 05:32:23",
-	      		"LastPositionTime": "2020-04-17 07:22:48"
-	      	}
-	   ]
-	*/
+	// Output:
+	// [
+	//    	{
+	//    		"Seq": "3",
+	//    		"Name": "pipeb",
+	//    		"State": "工作中",
+	//    		"Delay": "1.213 s",
+	//    		"LastSyncTime": "2020-04-14 08:27:35",
+	//    		"LastPositionTime": "2020-04-17 07:22:04"
+	//    	},
+	//    	{
+	//    		"Seq": "1",
+	//    		"Name": "pipea",
+	//    		"State": "工作中",
+	//    		"Delay": "0.75 s",
+	//    		"LastSyncTime": "2020-04-17 05:32:23",
+	//    		"LastPositionTime": "2020-04-17 07:22:48"
+	//    	}
+	// ]
 }

@@ -14,6 +14,7 @@ type Queue struct {
 func NewQueue() *Queue {
 	q := new(Queue)
 	q.Cond = sync.NewCond(&sync.Mutex{})
+
 	return q
 }
 
@@ -27,10 +28,13 @@ func (q *Queue) Put(item Item) {
 func (q *Queue) GetMany(n int) []Item {
 	q.L.Lock()
 	defer q.L.Unlock()
+
 	for len(q.items) < n {
 		q.Wait()
 	}
+
 	items := q.items[:n:n]
 	q.items = q.items[n:]
+
 	return items
 }

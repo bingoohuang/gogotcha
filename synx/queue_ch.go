@@ -17,12 +17,14 @@ type QueueCh struct {
 func NewQueueCh() *QueueCh {
 	s := make(chan state, 1)
 	s <- state{}
+
 	return &QueueCh{s}
 }
 
 func (q *QueueCh) Put(item Item) {
 	s := <-q.s
 	s.items = append(s.items, item)
+
 	for len(s.wait) > 0 {
 		w := s.wait[0]
 		if len(s.items) < w.n {
@@ -43,6 +45,7 @@ func (q *QueueCh) GetMany(n int) []Item {
 		items := s.items[:n:n]
 		s.items = s.items[n:]
 		q.s <- s
+
 		return items
 	}
 

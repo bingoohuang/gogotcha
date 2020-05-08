@@ -8,5 +8,6 @@ func HasChinese(str string) bool {
 			return true
 		}
 	}
+
 	return false
 }

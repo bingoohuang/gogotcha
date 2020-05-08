@@ -8,32 +8,57 @@ import (
 	v2 "github.com/bingoohuang/gogotcha/jso/v2"
 )
 
-func v1demo() {
+// nolint govet
+func ExampleNewAwesomeV1() {
 	awesome := v1.NewAwesome("123456789", "Total awesomeness", 9.99, true)
+
 	awesomeJSON, _ := awesome.ToJSON(false)
-	fmt.Printf("%s\n", awesomeJSON)
+	fmt.Println(string(awesomeJSON))
+
 	moreAwesomeJSON, _ := awesome.ToJSON(true)
-	fmt.Printf("%s\n", moreAwesomeJSON)
+	fmt.Println(string(moreAwesomeJSON))
+
+	// Output:
+	// {"id":"123456789","message":"Total awesomeness","score":9.99,"confirmed":true}
+	// {
+	//   "id": "123456789",
+	//   "message": "Total awesomeness",
+	//   "score": 9.99,
+	//   "confirmed": true
+	// }
 }
 
-func v2demo() {
+// nolint govet
+func ExampleNewAwesomeV2() {
 	awesome := v2.NewAwesome("123456789", "Total awesomeness", 9.99, true)
+
 	awesomeJSON, _ := awesome.ToJSON(false)
-	fmt.Printf("%s\n", awesomeJSON)
+	fmt.Println(string(awesomeJSON))
+
 	moreAwesomeJSON, _ := awesome.ToJSON(true)
-	fmt.Printf("%s\n", moreAwesomeJSON)
+	fmt.Println(string(moreAwesomeJSON))
+
+	// Output:
+	// {"id":"123456789","message":"Total awesomeness","score":9.99,"confirmed":true}
+	// {
+	//   "id": "123456789",
+	//   "message": "Total awesomeness",
+	//   "score": 9.99,
+	//   "confirmed": true
+	// }
 }
 
 // https://stackoverflow.com/questions/35691811/golang-unmarshal-json-map-array
 // https://play.golang.org/p/UPoFxorqWl
 
-func parseAny() {
+func ExampleUnmarshal() {
 	b := []byte(`[{"email":"example@test.com"}]`)
 	c := []byte(`{"email":"example@test.com"}`)
 
 	var m interface{}
 
-	json.Unmarshal(b, &m)
+	_ = json.Unmarshal(b, &m)
+
 	switch v := m.(type) {
 	case []interface{}:
 		fmt.Println("this is b", v)
@@ -44,7 +69,8 @@ func parseAny() {
 	// output:
 	// this is b [map[email:example@test.com]]
 
-	json.Unmarshal(c, &m)
+	_ = json.Unmarshal(c, &m)
+
 	switch v := m.(type) {
 	case map[string]interface{}:
 		fmt.Println("this is c", v)
@@ -52,6 +78,7 @@ func parseAny() {
 		fmt.Println("No type found")
 	}
 
-	// output:
+	// Output:
+	// this is b [map[email:example@test.com]]
 	// this is c map[email:example@test.com]
 }

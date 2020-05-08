@@ -1,18 +1,17 @@
 package lang
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
-var str = "This is China,这是中国"
-
 func TestIsChinese(t *testing.T) {
-	assert.True(t, HasChinese(str))
+	assert.True(t, HasChinese("This is China,这是中国"))
 }
 
 func BenchmarkIsChinese(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		HasChinese(str)
+		HasChinese("This is China,这是中国")
 	}
 }

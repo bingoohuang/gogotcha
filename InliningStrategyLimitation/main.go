@@ -20,9 +20,11 @@ func sum(s []float32) float32 {
 	return t
 }
 
+// nolint unused
 var a int
 
 // Aadd demos SSA dump
+// nolint unused
 func Aadd() {
-	a = a + 1
+	a += 1
 }
