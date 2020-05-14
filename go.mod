@@ -7,6 +7,7 @@ require (
 	github.com/PuerkitoBio/goquery v1.5.1
 	github.com/bingoohuang/gou v0.0.0-20200429064629-238de234f28b
 	github.com/bingoohuang/strcase v0.0.0-20200312105414-ac2c85cfc85d
+	github.com/d5/tengo/v2 v2.3.0
 	github.com/dustin/go-humanize v1.0.0
 	github.com/elastic/go-ucfg v0.8.3
 	github.com/gizak/termui/v3 v3.1.0
