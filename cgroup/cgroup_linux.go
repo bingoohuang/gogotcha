@@ -39,8 +39,7 @@ func (c Cgroup) Limit() error {
 	g.Go(func() error { return c.write("blkio", "blkio.throttle.read_bps_device", c.BlkReadBps) })
 	g.Go(func() error { return c.write("blkio", "blkio.throttle.write_bps_device", c.BlkWriteBps) })
 
-	err := g.Wait()
-	if err != nil {
+	if err := g.Wait(); err != nil {
 		logrus.Warnf("fail to limit %v", err)
 	}
 
