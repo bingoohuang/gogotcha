@@ -111,20 +111,20 @@ type MyTableCol struct {
 // Sets up a "Finder" used to navigate the databases, tables, and columns.
 func finder() {
 	// Create the basic objects.
-	databases := tview.NewList().ShowSecondaryText(false)
-	databases.SetBorder(true).SetTitle("Databases")
+	databases := tview.NewList()
+	databases.ShowSecondaryText(false).SetBorder(true)
+	databases.SetTitle("Databases")
 
-	columns := tview.NewTable().SetBorders(true)
+	columns := tview.NewTable()
 	columns.SetBorder(true).SetTitle("Columns")
 
 	tables := tview.NewList()
-	tables.ShowSecondaryText(true).
-		SetDoneFunc(func() {
-			tables.Clear()
-			columns.Clear()
-			app.SetFocus(databases)
-		})
-	tables.SetBorder(true).SetTitle("Tables")
+	tables.SetDoneFunc(func() {
+		tables.Clear()
+		columns.Clear()
+		app.SetFocus(databases)
+	})
+	tables.ShowSecondaryText(true).SetBorder(true).SetTitle("Tables")
 
 	// Create the layout.
 	flex := tview.NewFlex().
@@ -154,9 +154,9 @@ func finder() {
 
 				columns.SetCell(0, 0, &tview.TableCell{Text: "Name", Align: tview.AlignCenter, Color: tcell.ColorYellow}).
 					SetCell(0, 1, &tview.TableCell{Text: "Type", Align: tview.AlignCenter, Color: tcell.ColorYellow}).
-					SetCell(0, 3, &tview.TableCell{Text: "Null", Align: tview.AlignCenter, Color: tcell.ColorYellow}).
-					SetCell(0, 4, &tview.TableCell{Text: "Default", Align: tview.AlignCenter, Color: tcell.ColorYellow}).
-					SetCell(0, 5, &tview.TableCell{Text: "Comment", Align: tview.AlignCenter, Color: tcell.ColorYellow})
+					SetCell(0, 2, &tview.TableCell{Text: "Null", Align: tview.AlignCenter, Color: tcell.ColorYellow}).
+					SetCell(0, 3, &tview.TableCell{Text: "Default", Align: tview.AlignCenter, Color: tcell.ColorYellow}).
+					SetCell(0, 4, &tview.TableCell{Text: "Comment", Align: tview.AlignCenter, Color: tcell.ColorYellow})
 
 				tableCols := dao.GetTableCols(schema.Database, tableName)
 				tableConstraints := dao.GetMyConstraints(schema.Database, tableName)
@@ -170,9 +170,9 @@ func finder() {
 
 					columns.SetCell(col.OrdinalPosition, 0, &tview.TableCell{Text: col.ColumnName, Color: color}).
 						SetCell(col.OrdinalPosition, 1, &tview.TableCell{Text: col.ColumnType, Color: color}).
-						SetCell(col.OrdinalPosition, 3, &tview.TableCell{Text: col.Nullable, Align: tview.AlignRight, Color: color}).
-						SetCell(col.OrdinalPosition, 4, &tview.TableCell{Text: col.Default, Align: tview.AlignRight, Color: color}).
-						SetCell(col.OrdinalPosition, 5, &tview.TableCell{Text: col.Comment, Align: tview.AlignLeft, Color: color})
+						SetCell(col.OrdinalPosition, 2, &tview.TableCell{Text: col.Nullable, Align: tview.AlignRight, Color: color}).
+						SetCell(col.OrdinalPosition, 3, &tview.TableCell{Text: col.Default, Align: tview.AlignRight, Color: color}).
+						SetCell(col.OrdinalPosition, 4, &tview.TableCell{Text: col.Comment, Align: tview.AlignLeft, Color: color})
 				}
 
 			})
@@ -222,8 +222,8 @@ func content(schema, tableName string) {
 
 	// We display the data in a table embedded in a frame.
 	table := tview.NewTable().
-		SetFixed(1, 0).
-		SetSeparator(tview.BoxDrawingsLightVertical).
+		//SetFixed(1, 0).
+		SetSeparator(tview.Borders.Vertical).
 		SetBordersColor(tcell.ColorYellow)
 	frame := tview.NewFrame(table).
 		SetBorders(0, 0, 0, 0, 0, 0)
