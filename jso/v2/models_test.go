@@ -1,10 +1,12 @@
-package v2
+package v2_test
 
 import (
 	"testing"
+
+	v2 "github.com/bingoohuang/gogotcha/jso/v2"
 )
 
-// nolint gochecknoglobals
+// nolint:gochecknoglobals
 var awesomeJSON = []byte(`{
   "id": "123456789",
   "message": "Total awesomeness",
@@ -13,7 +15,7 @@ var awesomeJSON = []byte(`{
 }`)
 
 func TestAwesomeToJSON(t *testing.T) {
-	awesome := NewAwesome("123456789", "Total awesomeness", 9.99, true)
+	awesome := v2.NewAwesome("123456789", "Total awesomeness", 9.99, true)
 
 	testJSON, err := awesome.ToJSON(true)
 
@@ -27,7 +29,7 @@ func TestAwesomeToJSON(t *testing.T) {
 }
 
 func TestAwesomeFromJSON(t *testing.T) {
-	awesome := NewAwesomeFromJSON(awesomeJSON)
+	awesome := v2.NewAwesomeFromJSON(awesomeJSON)
 
 	if awesome == nil {
 		t.Error("Unmarshalling json into awesome failed")
@@ -53,20 +55,20 @@ func TestAwesomeFromJSON(t *testing.T) {
 
 func BenchmarkAwesomeFromJSON(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		NewAwesomeFromJSON(awesomeJSON)
+		v2.NewAwesomeFromJSON(awesomeJSON)
 	}
 }
 
 func BenchmarkAwesomeToJSON(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		awesome := NewAwesome("123456789", "Total awesomeness", 9.99, true)
+		awesome := v2.NewAwesome("123456789", "Total awesomeness", 9.99, true)
 		_, _ = awesome.ToJSON(false)
 	}
 }
 
 func BenchmarkAwesomeToJSONPretty(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		awesome := NewAwesome("123456789", "Total awesomeness", 9.99, true)
+		awesome := v2.NewAwesome("123456789", "Total awesomeness", 9.99, true)
 		_, _ = awesome.ToJSON(true)
 	}
 }

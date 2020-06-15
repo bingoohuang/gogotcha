@@ -6,12 +6,12 @@ import (
 	"github.com/json-iterator/go/extra"
 )
 
-// nolint gochecknoinits
+// nolint:gochecknoinits
 func init() {
-	extra.SetNamingStrategy(func(n string) string { return strcase.ToCamelLower(n) })
+	extra.SetNamingStrategy(strcase.ToCamelLower)
 }
 
-// nolint gochecknoinits
+// nolint:gochecknoglobals
 var (
 	Unmarshal     = jsoniter.Unmarshal
 	Marshal       = jsoniter.Marshal

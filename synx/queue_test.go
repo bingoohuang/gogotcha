@@ -1,13 +1,15 @@
-package synx
+package synx_test
 
 import (
 	"fmt"
 	"sync"
 	"testing"
+
+	"github.com/bingoohuang/gogotcha/synx"
 )
 
 func TestQueue(t *testing.T) {
-	q := NewQueue()
+	q := synx.NewQueue()
 
 	var wg sync.WaitGroup
 
@@ -29,7 +31,7 @@ func TestQueue(t *testing.T) {
 }
 
 func TestQueueCh(t *testing.T) {
-	q := NewQueueCh()
+	q := synx.NewQueueCh()
 
 	var wg sync.WaitGroup
 
@@ -51,7 +53,7 @@ func TestQueueCh(t *testing.T) {
 }
 
 func BenchmarkQueue(b *testing.B) {
-	q := NewQueue()
+	q := synx.NewQueue()
 
 	var wg sync.WaitGroup
 
@@ -73,7 +75,7 @@ func BenchmarkQueue(b *testing.B) {
 }
 
 func BenchmarkQueueCh(b *testing.B) {
-	q := NewQueueCh()
+	q := synx.NewQueueCh()
 
 	var wg sync.WaitGroup
 

@@ -4,19 +4,21 @@
 // which will cause these tests to fail
 // and these benchmarks to be misleading.
 
-package internstrings
+package internstrings_test
 
 import (
 	"bytes"
 	"reflect"
 	"testing"
 	"unsafe"
+
+	"github.com/bingoohuang/gogotcha/internstrings"
 )
 
 func TestString(t *testing.T) {
 	s := "abcde"
-	sub := String(s[1:4])
-	interned := String("bcd")
+	sub := internstrings.String(s[1:4])
+	interned := internstrings.String("bcd")
 	want := (*reflect.StringHeader)(unsafe.Pointer(&sub)).Data
 	got := (*reflect.StringHeader)(unsafe.Pointer(&interned)).Data
 
@@ -25,14 +27,14 @@ func TestString(t *testing.T) {
 	}
 }
 
-// nolint gomnd
 func TestBytes(t *testing.T) {
 	s := bytes.Repeat([]byte("abc"), 100)
 	n := testing.AllocsPerRun(100, func() {
 		for i := 0; i < 100; i++ {
-			_ = Bytes(s[i*len("abc") : (i+1)*len("abc")])
+			_ = internstrings.Bytes(s[i*len("abc") : (i+1)*len("abc")])
 		}
 	})
+
 	if n > 0 {
 		t.Errorf("Bytes allocated %d, want 0", int(n))
 	}
@@ -46,7 +48,7 @@ func BenchmarkString(b *testing.B) {
 	b.RunParallel(func(pb *testing.PB) {
 		var s string
 		for pb.Next() {
-			s = String(in[1:5])
+			s = internstrings.String(in[1:5])
 		}
 		_ = s
 	})
@@ -60,7 +62,7 @@ func BenchmarkBytes(b *testing.B) {
 	b.RunParallel(func(pb *testing.PB) {
 		var s string
 		for pb.Next() {
-			s = Bytes(in[1:5])
+			s = internstrings.Bytes(in[1:5])
 		}
 		_ = s
 	})

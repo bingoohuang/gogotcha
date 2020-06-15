@@ -1,7 +1,7 @@
 package custom
 
 import (
-	"crypto/sha1" // nolint gosec
+	"crypto/sha1" // nolint:gosec
 	"encoding/json"
 	"fmt"
 )
@@ -20,7 +20,7 @@ func (i *Item) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	i.HashCode = fmt.Sprintf("%x", sha1.Sum(data)) // nolint gosec
+	i.HashCode = fmt.Sprintf("%x", sha1.Sum(data)) // nolint:gosec
 
 	return nil
 }

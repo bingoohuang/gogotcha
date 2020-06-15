@@ -21,6 +21,7 @@ require (
 	github.com/jessevdk/go-flags v1.4.0
 	github.com/json-iterator/go v1.1.9
 	github.com/nsf/termbox-go v0.0.0-20200204031403-4d2b513ad8be // indirect
+	github.com/pkg/errors v0.8.1
 	github.com/rivo/tview v0.0.0-20200507165325-823f280c5426
 	github.com/sirupsen/logrus v1.4.2
 	github.com/speps/go-hashids v2.0.0+incompatible

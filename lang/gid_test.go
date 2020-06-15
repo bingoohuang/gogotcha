@@ -1,8 +1,9 @@
-package lang
+package lang_test
 
 import (
 	"testing"
 
+	"github.com/bingoohuang/gogotcha/lang"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -13,7 +14,7 @@ func TestCurGoroutineID(t *testing.T) {
 
 	for i := 0; i < 10; i++ {
 		go func() {
-			goroutineID := CurGoroutineID()
+			goroutineID := lang.CurGoroutineID()
 
 			t.Logf("goroutineID:%s\n", goroutineID)
 

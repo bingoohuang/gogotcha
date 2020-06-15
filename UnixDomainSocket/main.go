@@ -11,13 +11,14 @@ import (
 	"strings"
 
 	"github.com/Masterminds/goutils"
+	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/crypto/ssh"
 	"golang.org/x/crypto/ssh/agent"
 )
 
 func main() {
-	if len(os.Args) < 2 { // nolint gomnd
+	if len(os.Args) < 2 { // nolint:gomnd
 		fmt.Fprintln(os.Stderr, "usage:", os.Args[0], "ip")
 		fmt.Fprintln(os.Stderr, "unix http server usage:", os.Args[0], "/path.sock")
 		fmt.Fprintln(os.Stderr, "unix http client usage:", os.Args[0], "/path.sock /uri [data]")
@@ -25,20 +26,20 @@ func main() {
 		return
 	}
 
-	arg1 := os.Args[1] // nolint gomnd
-	p := arg1[0:1]     // nolint gomnd
+	arg1 := os.Args[1]
+	p := arg1[0:1]
 
 	if p == "/" || p == "." || p == "~" { // tell if it is an unix sock file name
-		if len(os.Args) == 2 { // nolint gomnd
+		if len(os.Args) == 2 { // nolint:gomnd
 			unitHTTPServer(arg1)
 			return
 		}
 
-		uri := os.Args[2] // nolint gomnd
+		uri := os.Args[2]
 		postData := ""
 
-		if len(os.Args) >= 4 { // nolint gomnd
-			postData = os.Args[3] // nolint gomnd
+		if len(os.Args) >= 4 { // nolint:gomnd
+			postData = os.Args[3]
 		}
 
 		unitHTTPClient(arg1, uri, postData)
@@ -110,19 +111,19 @@ func (d *dialer) Dial(network, addr string) (net.Conn, error) {
 		fmt.Printf("network:%s, addr:%s, error %+v\n", network, addr, err)
 
 		if strings.Contains(errStr, "connect failed") {
-			return nil, fmt.Errorf("unable to access the service on %s. "+
-				"The service might be still starting up. Error: %v", addr, err)
+			return nil, errors.Wrapf(err, "unable to access the service on %s. "+
+				"The service might be still starting up.", addr)
 		}
 
 		if strings.Contains(errStr, "administratively prohibited") {
-			return nil, fmt.Errorf("unable to access the Docker socket (%s). "+
+			return nil, errors.Wrapf(err, "unable to access the Docker socket (%s). "+
 				"Please check if the configured user can execute `docker ps` on the node, "+
 				"and if the SSH server version is at least version 6.7 or higher. "+
 				"If you are using RedHat/CentOS, you can't use the user `root`. "+
-				"Please refer to the documentation for more instructions. Error: %v", addr, err)
+				"Please refer to the documentation for more instructions.", addr)
 		}
 
-		return nil, fmt.Errorf("failed to dial to %s: %+v", addr, err)
+		return nil, errors.Wrapf(err, "failed to dial to %s", addr)
 	}
 
 	return remote, err
@@ -132,38 +133,37 @@ func (d *dialer) checkSSHTunelError(err error) (net.Conn, error) {
 	errStr := err.Error()
 
 	if strings.Contains(errStr, "no key found") {
-		return nil, fmt.Errorf("unable to access node with address [%s] using SSH. "+
-			"Please check if the configured key or specified key file is a valid SSH Private Key."+
-			" Error: %v", d.sshAddress, err)
+		return nil, errors.Wrapf(err, "unable to access node with address [%s] using SSH. "+
+			"Please check if the configured key or specified key file is a valid SSH Private Key.", d.sshAddress)
 	}
 
 	if strings.Contains(errStr, "no supported methods remain") {
-		return nil, fmt.Errorf("unable to access node with address [%s] using SSH. "+
+		return nil, errors.Wrapf(err, "unable to access node with address [%s] using SSH. "+
 			"Please check if you are able to SSH to the node using the specified SSH Private Key "+
-			"and if you have configured the correct SSH username. Error: %v", d.sshAddress, err)
+			"and if you have configured the correct SSH username.", d.sshAddress)
 	}
 
 	if strings.Contains(errStr, "cannot decode encrypted private keys") {
-		return nil, fmt.Errorf("unable to access node with address [%s] using SSH. "+
+		return nil, errors.Wrapf(err, "unable to access node with address [%s] using SSH. "+
 			"Using encrypted private keys is only supported using ssh-agent. "+
 			"Please configure the option `ssh_agent_auth: true` in the configuration file "+
 			"or use --ssh-agent-auth as a parameter when running RKE. "+
-			"This will use the `SSH_AUTH_SOCK` environment variable. Error: %v", d.sshAddress, err)
+			"This will use the `SSH_AUTH_SOCK` environment variable.", d.sshAddress)
 	}
 
 	if strings.Contains(errStr, "operation timed out") {
-		return nil, fmt.Errorf("unable to access node with address [%s] using SSH. "+
+		return nil, errors.Wrapf(err, "unable to access node with address [%s] using SSH. "+
 			"Please check if the node is up and is accepting SSH connections "+
-			"or check network policies and firewall rules. Error: %v", d.sshAddress, err)
+			"or check network policies and firewall rules.", d.sshAddress)
 	}
 
-	return nil, fmt.Errorf("failed to dial ssh using address [%s]: %v", d.sshAddress, err)
+	return nil, errors.Wrapf(err, "dial ssh using address [%s]", d.sshAddress)
 }
 
 func (d *dialer) getSSHTunnelConnection() (*ssh.Client, error) {
 	cfg, err := getSSHConfig(d.username, d.sshKeyString, d.sshCertString, d.useSSHAgentAuth)
 	if err != nil {
-		return nil, fmt.Errorf("error configuring SSH: %v", err)
+		return nil, errors.Wrapf(err, "configuring SSH")
 	}
 
 	// Establish connection with SSH server
@@ -172,7 +172,7 @@ func (d *dialer) getSSHTunnelConnection() (*ssh.Client, error) {
 	return ssh.Dial("tcp", d.sshAddress, cfg)
 }
 
-// nolint gosec
+// nolint:gosec
 func getSSHConfig(username, sshPrivateKey, sshCertificate string, useAgentAuth bool) (*ssh.ClientConfig, error) {
 	config := &ssh.ClientConfig{User: username, HostKeyCallback: ssh.InsecureIgnoreHostKey()}
 
@@ -181,7 +181,7 @@ func getSSHConfig(username, sshPrivateKey, sshCertificate string, useAgentAuth b
 		if sshAgentSock := os.Getenv("SSH_AUTH_SOCK"); sshAgentSock != "" {
 			sshAgent, err := net.Dial("unix", sshAgentSock)
 			if err != nil {
-				return config, fmt.Errorf("cannot connect to SSH Auth socket %q: %s", sshAgentSock, err)
+				return config, errors.Wrapf(err, "cannot connect to SSH Auth socket %q", sshAgentSock)
 			}
 
 			config.Auth = append(config.Auth, ssh.PublicKeysCallback(agent.NewClient(sshAgent).Signers))
@@ -200,11 +200,11 @@ func getSSHConfig(username, sshPrivateKey, sshCertificate string, useAgentAuth b
 	if len(sshCertificate) > 0 {
 		key, _, _, _, err := ssh.ParseAuthorizedKey([]byte(sshCertificate))
 		if err != nil {
-			return config, fmt.Errorf("unable to parse SSH certificate: %v", err)
+			return config, errors.Wrapf(err, "unable to parse SSH certificate")
 		}
 
 		if _, ok := key.(*ssh.Certificate); !ok {
-			return config, fmt.Errorf("unable to cast public key to SSH Certificate")
+			return config, ErrCastCertificate
 		}
 
 		signer, err = ssh.NewCertSigner(key.(*ssh.Certificate), signer)
@@ -218,6 +218,8 @@ func getSSHConfig(username, sshPrivateKey, sshCertificate string, useAgentAuth b
 	return config, nil
 }
 
+var ErrCastCertificate = errors.New("unable to cast public key to SSH Certificate")
+
 func parsePrivateKey(keyBuff string) (ssh.Signer, error) {
 	return ssh.ParsePrivateKey([]byte(keyBuff))
 }
@@ -229,7 +231,7 @@ func privateKeyPath(sshKeyPath string) (string, error) {
 
 	buff, err := ioutil.ReadFile(sshKeyPath)
 	if err != nil {
-		return "", fmt.Errorf("error while reading SSH key file: %v", err)
+		return "", errors.Wrapf(err, "error while reading SSH key file")
 	}
 
 	return string(buff), nil

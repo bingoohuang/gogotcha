@@ -1,4 +1,4 @@
-package md
+package md_test
 
 import (
 	"fmt"
@@ -21,5 +21,5 @@ func TestMdHtml(t *testing.T) {
 	`)
 	output := markdown.ToHTML(md, nil, nil)
 	fmt.Println(string(output))
-	_ = ioutil.WriteFile("md.html", output, 0777)
+	_ = ioutil.WriteFile("md.html", output, 0600)
 }

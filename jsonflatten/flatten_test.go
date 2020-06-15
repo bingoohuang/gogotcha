@@ -1,13 +1,14 @@
-package jsonflatten
+package jsonflatten_test
 
 import (
 	"testing"
 
+	"github.com/bingoohuang/gogotcha/jsonflatten"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestFlatten(t *testing.T) {
-	o, err := FlattenJSON(`{"name":"bingoohuang", "address":{"city":"San Francisco", "postcode":123}}`)
+	o, err := jsonflatten.FlattenJSON(`{"name":"bingoohuang", "address":{"city":"San Francisco", "postcode":123}}`)
 	assert.Nil(t, err)
 
 	assert.Equal(t, map[string]interface{}{
@@ -16,7 +17,8 @@ func TestFlatten(t *testing.T) {
 		"postcode": float64(123),
 	}, o)
 
-	o, err = FlattenJSON(`{"name":"bingoohuang", "address": {"detail":{"city":"San Francisco", "postcode":123}}}`)
+	// nolint:lll
+	o, err = jsonflatten.FlattenJSON(`{"name":"bingoohuang", "address": {"detail":{"city":"San Francisco", "postcode":123}}}`)
 	assert.Nil(t, err)
 
 	assert.Equal(t, map[string]interface{}{
@@ -25,8 +27,8 @@ func TestFlatten(t *testing.T) {
 		"postcode": float64(123),
 	}, o)
 
-	o, err = FlattenJSON(`{"name":"bingoohuang", "address":{"city":"San Francisco", "postcode":123}}`,
-		AllowFn(func(keys []string) bool {
+	o, err = jsonflatten.FlattenJSON(`{"name":"bingoohuang", "address":{"city":"San Francisco", "postcode":123}}`,
+		jsonflatten.AllowFn(func(keys []string) bool {
 			if len(keys) == 2 && keys[0] == "address" {
 				return keys[1] == "city"
 			}

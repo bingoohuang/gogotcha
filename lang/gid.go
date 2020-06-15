@@ -57,7 +57,7 @@ func (g GoroutineID) Uint64() uint64 {
 // GoroutineID is the goroutine ID's presentation.
 type GoroutineID string
 
-// nolint gochecknoglobals
+// nolint:gochecknoglobals
 var (
 	DebugGoroutines = os.Getenv("DEBUG_GOROUTINES") == "1"
 

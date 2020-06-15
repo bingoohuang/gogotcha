@@ -1,4 +1,4 @@
-package jso
+package jso_test
 
 import (
 	"encoding/json"
@@ -8,7 +8,7 @@ import (
 	v2 "github.com/bingoohuang/gogotcha/jso/v2"
 )
 
-// nolint govet
+// nolint:govet
 func ExampleNewAwesomeV1() {
 	awesome := v1.NewAwesome("123456789", "Total awesomeness", 9.99, true)
 
@@ -28,7 +28,7 @@ func ExampleNewAwesomeV1() {
 	// }
 }
 
-// nolint govet
+// nolint:govet
 func ExampleNewAwesomeV2() {
 	awesome := v2.NewAwesome("123456789", "Total awesomeness", 9.99, true)
 

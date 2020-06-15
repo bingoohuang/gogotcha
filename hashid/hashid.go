@@ -65,7 +65,7 @@ func NewHashIDE(salt string, minLength int) (HashID, error) {
 	return HashID{HashID: h}, err
 }
 
-// Encrypt 加密
+// Encrypt 加密.
 func (h HashID) Encrypt(params ...int) string {
 	if s, err := h.EncryptE(params...); err != nil {
 		panic(err)
@@ -74,7 +74,7 @@ func (h HashID) Encrypt(params ...int) string {
 	}
 }
 
-// Decrypt  解密
+// Decrypt  解密.
 func (h HashID) Decrypt(hash string) []int {
 	if r, err := h.DecryptE(hash); err != nil {
 		panic(err)
@@ -83,12 +83,12 @@ func (h HashID) Decrypt(hash string) []int {
 	}
 }
 
-// EncryptE 加密
+// EncryptE 加密.
 func (h HashID) EncryptE(params ...int) (string, error) {
 	return h.Encode(params)
 }
 
-// DecryptE  解密
+// DecryptE  解密.
 func (h HashID) DecryptE(hash string) ([]int, error) {
 	return h.DecodeWithError(hash)
 }

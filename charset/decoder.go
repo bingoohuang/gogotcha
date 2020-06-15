@@ -10,12 +10,12 @@ import (
 	"strings"
 )
 
-// a Decoder contains charset encoding to decode non-utf8 string.
+// Decoder contains charset encoding to decode non-utf8 string.
 type Decoder struct {
 	decoder *encoding.Decoder
 }
 
-// NewDecoder create a Decoder by charset name
+// NewDecoder create a Decoder by charset name.
 func NewDecoder(charset string) *Decoder {
 	switch strings.ToUpper(charset) {
 	case "GB18030":

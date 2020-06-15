@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/spf13/viper"
 	"reflect"
 	"strconv"
 	"time"
+
+	"github.com/spf13/viper"
 
 	"github.com/bingoohuang/sqlx"
 	"github.com/gdamore/tcell"
@@ -19,6 +20,7 @@ const (
 	finderPage = "*finder*" // The name of the Finder page.
 )
 
+// nolint:gochecknoglobals
 var (
 	app         *tview.Application // The tview application.
 	pages       *tview.Pages       // The application pages.
@@ -58,14 +60,18 @@ func main() {
 
 	// Start the application.
 	app = tview.NewApplication()
+
 	finder()
+
 	if err := app.Run(); err != nil {
 		fmt.Printf("Error running application: %s\n", err)
 	}
 }
 
+// nolint:gochecknoglobals
 var dao mysqlSchemaDao
 
+// nolint:lll
 type mysqlSchemaDao struct {
 	ShowDatabases    func() []MyDatabase                   `sql:"show databases"`
 	GetTables        func(schema string) []MySQLTable      `sql:"SELECT * FROM information_schema.TABLES WHERE TABLE_SCHEMA = :1"`
@@ -109,6 +115,7 @@ type MyTableCol struct {
 }
 
 // Sets up a "Finder" used to navigate the databases, tables, and columns.
+// nolint:funlen
 func finder() {
 	// Create the basic objects.
 	databases := tview.NewList()
@@ -174,8 +181,8 @@ func finder() {
 						SetCell(col.OrdinalPosition, 3, &tview.TableCell{Text: col.Default, Align: tview.AlignRight, Color: color}).
 						SetCell(col.OrdinalPosition, 4, &tview.TableCell{Text: col.Comment, Align: tview.AlignLeft, Color: color})
 				}
-
 			})
+
 			tables.SetCurrentItem(0) // Trigger the initial selection.
 
 			// When the user selects a table, show its content.
@@ -206,10 +213,12 @@ func parseColor(tableConstraintsMap map[string]MyConstraint, col MyTableCol) tce
 	if !ok {
 		color = tcell.ColorWhite
 	}
+
 	return color
 }
 
 // Shows the contents of the given table.
+// nolint:lll,funlen,gocognit
 func content(schema, tableName string) {
 	finderFocus = app.GetFocus()
 
@@ -232,6 +241,7 @@ func content(schema, tableName string) {
 
 	// How many rows does this table have?
 	var rowCount int
+
 	err := sqlx.DB.QueryRow(fmt.Sprintf("select count(*) from %s", schemaTableName)).Scan(&rowCount)
 	if err != nil {
 		panic(err)
@@ -250,6 +260,7 @@ func content(schema, tableName string) {
 		if err != nil {
 			panic(err)
 		}
+
 		for index, name := range columnNames {
 			table.SetCell(0, index, &tview.TableCell{Text: name, Align: tview.AlignCenter, Color: tcell.ColorYellow})
 		}
@@ -257,9 +268,11 @@ func content(schema, tableName string) {
 		// Read the rows.
 		columns := make([]interface{}, len(columnNames))
 		columnPointers := make([]interface{}, len(columns))
+
 		for index := range columnPointers {
 			columnPointers[index] = &columns[index]
 		}
+
 		for rows.Next() {
 			// Read the columns.
 			err := rows.Scan(columnPointers...)
@@ -269,6 +282,7 @@ func content(schema, tableName string) {
 
 			// Transfer them to the table.
 			row := table.GetRowCount()
+
 			for index, column := range columns {
 				switch value := column.(type) {
 				case int64:
@@ -279,12 +293,12 @@ func content(schema, tableName string) {
 					table.SetCellSimple(row, index, value)
 				case time.Time:
 					t := value.Format("2006-01-02")
+
 					table.SetCell(row, index, &tview.TableCell{Text: t, Align: tview.AlignRight, Color: tcell.ColorDarkMagenta})
 				case []uint8:
 					str := make([]byte, len(value))
-					for index, num := range value {
-						str[index] = byte(num)
-					}
+					copy(str, value)
+
 					table.SetCell(row, index, &tview.TableCell{Text: string(str), Align: tview.AlignRight, Color: tcell.ColorGreen})
 				case nil:
 					table.SetCell(row, index, &tview.TableCell{Text: "NULL", Align: tview.AlignCenter, Color: tcell.ColorRed})
@@ -292,23 +306,28 @@ func content(schema, tableName string) {
 					// We've encountered a type that we don't know yet.
 					t := reflect.TypeOf(value)
 					str := "?nil?"
+
 					if t != nil {
 						str = "?" + t.String() + "?"
 					}
+
 					table.SetCellSimple(row, index, str)
 				}
 			}
 		}
+
 		if err := rows.Err(); err != nil {
 			panic(err)
 		}
 
 		// Show how much we've loaded.
 		frame.Clear()
+
 		loadMore := ""
 		if table.GetRowCount()-1 < rowCount {
 			loadMore = " - press Enter to load more"
 		}
+
 		loadMore = fmt.Sprintf("Loaded %d of %d rows%s", table.GetRowCount()-1, rowCount, loadMore)
 		frame.AddText(loadMore, false, tview.AlignCenter, tcell.ColorYellow)
 	}

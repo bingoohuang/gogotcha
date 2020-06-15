@@ -1,6 +1,10 @@
-package bench
+package bench_test
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/bingoohuang/gogotcha/bench"
+)
 
 func BenchmarkCloneList(b *testing.B) {
 	b.ReportAllocs()
@@ -8,6 +12,6 @@ func BenchmarkCloneList(b *testing.B) {
 	input := []string{"abb", "bbbb", "cbbbb"}
 
 	for i := 0; i < b.N; i++ {
-		CloneList(input)
+		bench.CloneList(input)
 	}
 }

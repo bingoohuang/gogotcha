@@ -1,12 +1,13 @@
-package lang
+package lang_test
 
 import (
 	"testing"
 
+	"github.com/bingoohuang/gogotcha/lang"
 	"github.com/stretchr/testify/assert"
 )
 
-// nolint gochecknoglobals
+// nolint:gochecknoglobals
 var awesomeJSON = []byte(`{
   "id": "123456789",
   "message": "Total awesomeness",
@@ -17,7 +18,7 @@ var awesomeJSON = []byte(`{
 func TestAwesomeToJSON(t *testing.T) {
 	awesome := Awesome{"123456789", "Total awesomeness", 9.99, true}
 
-	testJSON, err := MarshalIndent(awesome, "", "  ")
+	testJSON, err := lang.MarshalIndent(awesome, "", "  ")
 
 	assert.Nil(t, err)
 	assert.Equal(t, testJSON, awesomeJSON)
@@ -26,7 +27,7 @@ func TestAwesomeToJSON(t *testing.T) {
 func TestAwesomeFromJSON(t *testing.T) {
 	var awesome Awesome
 
-	assert.Nil(t, Unmarshal(awesomeJSON, &awesome))
+	assert.Nil(t, lang.Unmarshal(awesomeJSON, &awesome))
 	assert.Equal(t, Awesome{"123456789", "Total awesomeness", 9.99, true}, awesome)
 }
 

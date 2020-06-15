@@ -30,9 +30,9 @@ func unitHTTPClient(unixPath, urlAddr, postBodyRaw string) {
 	)
 
 	if postBodyRaw == "" {
-		response, err = hc.Get(unixHTTPUrl) // nolint bodyclose
+		response, err = hc.Get(unixHTTPUrl) // nolint:bodyclose
 	} else {
-		response, err = hc.Post(unixHTTPUrl, // nolint bodyclose
+		response, err = hc.Post(unixHTTPUrl, // nolint:bodyclose
 			"application/octet-stream", strings.NewReader(postBodyRaw))
 	}
 

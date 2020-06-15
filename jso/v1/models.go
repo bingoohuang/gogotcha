@@ -11,7 +11,7 @@ type Awesome struct {
 	Confirmed bool    `json:"confirmed"`
 }
 
-// NewAwesome creates a new Instance of Awesome
+// NewAwesome creates a new Instance of Awesome.
 func NewAwesome(id string, message string, score float64, confirmed bool) *Awesome {
 	return &Awesome{
 		id,
@@ -21,7 +21,7 @@ func NewAwesome(id string, message string, score float64, confirmed bool) *Aweso
 	}
 }
 
-// NewAwesomeFromJSON creates a new Instance of Awesome from JSON
+// NewAwesomeFromJSON creates a new Instance of Awesome from JSON.
 func NewAwesomeFromJSON(jsonData []byte) (awesome *Awesome) {
 	if err := json.Unmarshal(jsonData, &awesome); err != nil {
 		return nil
@@ -30,7 +30,7 @@ func NewAwesomeFromJSON(jsonData []byte) (awesome *Awesome) {
 	return awesome
 }
 
-// ToJSON marshalls Awesome to JSON
+// ToJSON marshalls Awesome to JSON.
 func (a *Awesome) ToJSON(pretty bool) ([]byte, error) {
 	if pretty {
 		return json.MarshalIndent(a, "", "  ")

@@ -1,9 +1,10 @@
-package charset
+package charset_test
 
 import (
 	"fmt"
 	"testing"
 
+	cs "github.com/bingoohuang/gogotcha/charset"
 	"github.com/bingoohuang/gou/file"
 	"github.com/stretchr/testify/assert"
 	"golang.org/x/net/html/charset"
@@ -16,7 +17,7 @@ func TestGBK(t *testing.T) {
 	encoding, name, certain := charset.DetermineEncoding([]byte(s), "")
 	fmt.Println(encoding, name, certain)
 
-	decoded, err := NewDecoder("GBK").Decode(s)
+	decoded, err := cs.NewDecoder("GBK").Decode(s)
 	assert.Nil(t, err)
 	assert.Equal(t, "中华人民共和国合同法", decoded)
 
@@ -26,7 +27,7 @@ func TestGBK(t *testing.T) {
 	encoding, name, certain = charset.DetermineEncoding([]byte(s), "")
 	fmt.Println(encoding, name, certain)
 
-	decoded, err = NewDecoder("UTF8").Decode(s)
+	decoded, err = cs.NewDecoder("UTF8").Decode(s)
 	assert.Nil(t, err)
 	assert.Equal(t, "中华人民共和国合同法", decoded)
 
@@ -36,7 +37,7 @@ func TestGBK(t *testing.T) {
 	encoding, name, certain = charset.DetermineEncoding([]byte(s), "")
 	fmt.Println(encoding, name, certain)
 
-	decoded, err = NewDecoder("GB18030").Decode(s)
+	decoded, err = cs.NewDecoder("GB18030").Decode(s)
 	assert.Nil(t, err)
 	assert.Equal(t, "中华人民共和国合同法", decoded)
 }

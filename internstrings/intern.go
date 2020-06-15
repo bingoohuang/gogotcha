@@ -8,7 +8,7 @@ package internstrings
 
 import "sync"
 
-// nolint gochecknoglobals
+// nolint:gochecknoglobals
 var (
 	pool = sync.Pool{
 		New: func() interface{} {

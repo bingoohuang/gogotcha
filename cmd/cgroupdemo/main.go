@@ -37,7 +37,7 @@ func main() {
 	fmt.Println("Child pid is", os.Getpid())
 
 	for i := 0; ; i++ {
-		// nolint staticcheck
+		// nolint:staticcheck
 		blocks = append(blocks, [MB]byte{})
 
 		printMemUsage()
