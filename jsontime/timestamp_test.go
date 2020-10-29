@@ -17,7 +17,7 @@ func TestUnmashalMsg(t *testing.T) {
 	}`
 	msg, err := ParseMsg(j)
 	assert.Nil(t, err)
-	assert.Equal(t, jsontime.Timestamp(time.Unix(0, 123000)), msg.A)
+	assert.Equal(t, jsontime.Timestamp(time.Unix(0, 123000000)), msg.A)
 	p, _ := time.Parse("2006-01-02 15:04:05.000", "2020-03-18 10:51:54.198")
 	assert.Equal(t, jsontime.Timestamp(p), msg.B)
 	assert.Equal(t, jsontime.Timestamp(p), msg.C)
