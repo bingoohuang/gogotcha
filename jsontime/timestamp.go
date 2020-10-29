@@ -18,7 +18,7 @@ func (t *Timestamp) UnmarshalJSON(b []byte) error {
 		// 首先看是否是数字
 		p, err := strconv.ParseInt(v, 10, 64)
 		if err == nil {
-			*t = Timestamp(time.Unix(0, p*1000))
+			*t = Timestamp(time.Unix(0, p*1000000))
 			return nil
 		}
 
@@ -48,6 +48,6 @@ func (t *Timestamp) UnmarshalJSON(b []byte) error {
 		return err
 	}
 
-	*t = Timestamp(time.Unix(0, p*1000))
+	*t = Timestamp(time.Unix(0, p*1000000))
 	return nil
 }
