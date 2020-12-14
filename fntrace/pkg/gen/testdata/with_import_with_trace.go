@@ -1,0 +1,31 @@
+package main
+
+import (
+	"fmt"
+
+	"github.com/bingoohuang/fntrace"
+)
+
+func A1() {
+	defer fntrace.Trace()()
+	B1()
+}
+
+func B1() {
+	defer fntrace.Trace()()
+	C1()
+}
+
+func C1() {
+	defer fntrace.Trace()()
+	D()
+}
+
+func D() {
+	defer fntrace.Trace()()
+}
+
+func main() {
+	A1()
+	fmt.Println("ok")
+}

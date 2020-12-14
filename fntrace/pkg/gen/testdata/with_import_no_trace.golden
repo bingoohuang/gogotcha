@@ -1,0 +1,38 @@
+package main
+
+import (
+	"fmt"
+	"github.com/bingoohuang/fntrace"
+)
+
+type Foo struct{}
+
+func (Foo) F() {
+	defer fntrace.Trace()()
+	D()
+}
+
+func A1() {
+	defer fntrace.Trace()()
+	B1()
+}
+
+func B1() {
+	defer fntrace.Trace()()
+	C1()
+}
+
+func C1() {
+	defer fntrace.Trace()()
+	D()
+}
+
+func D() {
+	defer fntrace.Trace()()
+}
+
+func main() {
+	defer fntrace.Trace()()
+	A1()
+	fmt.Println("ok")
+}
