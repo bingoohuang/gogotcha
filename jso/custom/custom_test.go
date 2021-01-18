@@ -23,6 +23,8 @@ type Document struct {
 }
 
 func (d Document) MarshalJSON() ([]byte, error) {
+	// To alias the original type.
+	// This alias will have all the same fields, but none of the methods (MarshalJSON/UnmarshalJSON).
 	type Alias Document
 	return json.Marshal(&struct {
 		*Alias
@@ -34,6 +36,8 @@ func (d Document) MarshalJSON() ([]byte, error) {
 }
 
 func (d *Document) UnmarshalJSON(data []byte) error {
+	// To alias the original type.
+	// This alias will have all the same fields, but none of the methods (MarshalJSON/UnmarshalJSON).
 	type Alias Document
 	aux := &struct {
 		*Alias
@@ -49,6 +53,8 @@ func (d *Document) UnmarshalJSON(data []byte) error {
 }
 
 func (p Person) MarshalJSON() ([]byte, error) {
+	// To alias the original type.
+	// This alias will have all the same fields, but none of the methods (MarshalJSON/UnmarshalJSON).
 	type Alias Person
 
 	return json.Marshal(struct {
@@ -61,6 +67,8 @@ func (p Person) MarshalJSON() ([]byte, error) {
 }
 
 func (p *Person) UnmarshalJSON(data []byte) error {
+	// To alias the original type.
+	// This alias will have all the same fields, but none of the methods (MarshalJSON/UnmarshalJSON).
 	type Alias Person
 	aux := &struct {
 		Name string `json:"name"`
@@ -76,6 +84,7 @@ func (p *Person) UnmarshalJSON(data []byte) error {
 }
 
 func TestCustom2(t *testing.T) {
+	// http://choly.ca/post/go-json-marshalling/
 	p := Person{Name: "bingoohuang", Age: 100}
 	v, err := json.Marshal(p)
 	assert.Nil(t, err)
