@@ -1,0 +1,38 @@
+html {
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+body {
+    background: #ffffff;
+    font-family: 'Lato', sans-serif;
+    transition: background 0.3s;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    letter-spacing: 0.1em;
+    height: 100vh;
+    width: 100vw;
+}
+
+button {
+    height: 4em;
+    width: 180px;
+    padding: 1.5em auto;
+    margin: 1em auto;
+    background-color: #FEB1C0;
+    border: none;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5em;
+    transition: all 0.2s cubic-bezier(.4, 0, .2, 1);
+}

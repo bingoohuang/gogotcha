@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/viper"
 
 	"github.com/bingoohuang/sqlx"
-	"github.com/gdamore/tcell"
+	"github.com/gdamore/tcell/v2"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/rivo/tview"
 	"github.com/spf13/pflag"
