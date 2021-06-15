@@ -8,6 +8,7 @@ require (
 	github.com/bingoohuang/gou v0.0.0-20200714112627-3254bbe11221
 	github.com/bingoohuang/sqlx v0.0.0-20210122095958-0408a1654f67
 	github.com/bingoohuang/strcase v0.0.0-20200312105414-ac2c85cfc85d
+	github.com/cheggaaa/pb/v3 v3.0.8
 	github.com/d5/tengo/v2 v2.6.2
 	github.com/dustin/go-humanize v1.0.0
 	github.com/elastic/go-ucfg v0.8.3
